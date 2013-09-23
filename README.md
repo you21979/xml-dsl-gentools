@@ -11,3 +11,6 @@ Install
 -------
 sudo easy_install genshi
 
+License
+-------
+GPL3
