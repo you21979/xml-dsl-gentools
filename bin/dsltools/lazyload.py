@@ -16,11 +16,11 @@ def load(name):
 
 def scan(dir):
     ext = ".py"
-    loaded = []
+    loaded = {}
     for f in filter(lambda f : f[-len(ext):] == ext, os.listdir(dir)):
         name = f[:-len(ext)]
         if name == '__init__':
             continue
-        loaded.append(load(dir + "." + name))
+        loaded[name] = load(dir + "." + name)
     return loaded
         

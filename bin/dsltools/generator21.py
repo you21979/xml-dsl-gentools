@@ -26,7 +26,7 @@ class Generator21:
 
         plugins = lazyload.scan("plugins")
         for plugin in plugins:
-            plugin.read(tree)
+            plugins[plugin].read(tree, plugin)
 
         #root = tree.getroot()
         #itemroot.tag = root.tag

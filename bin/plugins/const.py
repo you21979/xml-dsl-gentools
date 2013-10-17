@@ -19,13 +19,12 @@ def insert_param(root, member, element):
     pass
 
 
-def read(tree):
-
+def read(tree, tag):
     
     root = tree.getroot()
     item_root = init(root)
 
-    for elements in root.findall('const'):
+    for elements in root.findall(tag):
         item_member = insert_element(item_root, elements)
         for element in elements.getiterator():
             if element.tag == "param":
