@@ -5,21 +5,20 @@ from dsltools import utils
 from dsltools import lazyload
 from dsltools.base_item import BaseItem
 from xml.etree.ElementTree import ElementTree
-#from genshi.template import NewTextTemplate
-from django.template import Context, Template
-from django.conf import settings
-
-PROGRAM_VERSION = "1.0"
-
-settings.configure(DEBUG=True, TEMPLATE_DEBUG=True, TEMPLATE_DIRS=())
 
 class Item(BaseItem):
     def __init__(self):
         BaseItem.__init__(self)
 
 class Generator21:
-    def __init__(self, xmlfile):
+    def __init__(self, xmlfile, template_engine = "django"):
         self.tree = self.readXML(xmlfile)
+        switch = {
+            'django': "generator_django",
+            'genshi': "generator_genshi",
+        }
+        engine = switch[template_engine]
+        self.gen = lazyload.load(engine)
 
     def readXML(self, xmlfile):
         tree = ElementTree(file=open(xmlfile, 'r'))
@@ -41,27 +40,7 @@ class Generator21:
 
     def output(self, in_file, out_file, encode):
 
-#       # input
-#       fp = open(in_file, 'r')
-#       tmpl = NewTextTemplate(fp.read())
-#       fp.close()
-#       # generate
-#       outbuff = tmpl.generate(
-#           xml = self.tree,
-#           libdir = os.path.dirname(in_file)
-#       ).render('text')
-
-        # input
-        fp = open(in_file, 'r')
-        tmpl = Template(fp.read())
-        fp.close()
-
-        # generate
-        context = Context({
-            'xml' : self.tree,
-            'libdir' : os.path.dirname(in_file),
-        })
-        outbuff = tmpl.render(context)
+        outbuff = self.gen.output(self.tree, in_file, out_file)
 
         # output
         fp = open(out_file, 'w')
