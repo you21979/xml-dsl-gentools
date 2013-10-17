@@ -6,11 +6,12 @@ from dsltools import lazyload
 from dsltools.base_item import BaseItem
 from xml.etree.ElementTree import ElementTree
 #from genshi.template import NewTextTemplate
-from django.template import loader, RequestContext
-
-from optparse import OptionParser
+from django.template import Context, Template
+from django.conf import settings
 
 PROGRAM_VERSION = "1.0"
+
+settings.configure(DEBUG=True, TEMPLATE_DEBUG=True, TEMPLATE_DIRS=())
 
 class Item(BaseItem):
     def __init__(self):
@@ -39,17 +40,28 @@ class Generator21:
         return itemroot
 
     def output(self, in_file, out_file, encode):
+
+#       # input
+#       fp = open(in_file, 'r')
+#       tmpl = NewTextTemplate(fp.read())
+#       fp.close()
+#       # generate
+#       outbuff = tmpl.generate(
+#           xml = self.tree,
+#           libdir = os.path.dirname(in_file)
+#       ).render('text')
+
         # input
         fp = open(in_file, 'r')
-#        tmpl = NewTextTemplate(fp.read())
+        tmpl = Template(fp.read())
         fp.close()
 
         # generate
- #       outbuff = tmpl.generate(
- #           xml = self.tree,
- #           libdir = os.path.dirname(in_file)
- #       ).render('text')
-        outbuff = "aa"
+        context = Context({
+            'xml' : self.tree,
+            'libdir' : os.path.dirname(in_file),
+        })
+        outbuff = tmpl.render(context)
 
         # output
         fp = open(out_file, 'w')
