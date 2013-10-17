@@ -40,13 +40,13 @@ class Processor:
     # テンプレート一覧
     def show_input_files(self):
         def printfnc(in_fna, out_fna, encode):
-            print in_fna
+            print(in_fna)
         self.scan(printfnc)
     # -------------------------------------
     # ジェネレートファイル一覧
     def show_output_files(self):
         def printfnc(in_fna, out_fna, encode):
-            print out_fna
+            print(out_fna)
         self.scan(printfnc)
 
     # -------------------------------------
@@ -75,10 +75,10 @@ class Processor:
 
             if flag == True:
                 # ジェネレート
-                print 'generate exec ' + out_fna
+                print('generate exec ' + out_fna)
                 self.gen.output(in_fna, out_fna, encode)
             else:
-                print 'generate pass ' + out_fna
+                print('generate pass ' + out_fna)
         self.scan(printfnc)
 
 

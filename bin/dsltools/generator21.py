@@ -5,7 +5,8 @@ from dsltools import utils
 from dsltools import lazyload
 from dsltools.base_item import BaseItem
 from xml.etree.ElementTree import ElementTree
-from genshi.template import NewTextTemplate
+#from genshi.template import NewTextTemplate
+from django.template import loader, RequestContext
 
 from optparse import OptionParser
 
@@ -40,14 +41,15 @@ class Generator21:
     def output(self, in_file, out_file, encode):
         # input
         fp = open(in_file, 'r')
-        tmpl = NewTextTemplate(fp.read())
+#        tmpl = NewTextTemplate(fp.read())
         fp.close()
 
         # generate
-        outbuff = tmpl.generate(
-            xml = self.tree,
-            libdir = os.path.dirname(in_file)
-        ).render('text')
+ #       outbuff = tmpl.generate(
+ #           xml = self.tree,
+ #           libdir = os.path.dirname(in_file)
+ #       ).render('text')
+        outbuff = "aa"
 
         # output
         fp = open(out_file, 'w')
