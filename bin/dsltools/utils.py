@@ -7,6 +7,12 @@ def input_default(value, default):
     else:
         return default
 
+def input_select(value, select_list):
+    for item in select_list:
+        if item == value:
+            return item
+    raise
+
 def input_filename(value):
     v = input_default(value, "")
     if v == "":
@@ -27,4 +33,8 @@ def input_bool(value):
         return False
     else:
         raise
+
+def output_utf8bom_header(fp):
+    fp.write('\xef\xbb\xbf')
+
 

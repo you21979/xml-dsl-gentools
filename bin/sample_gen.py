@@ -43,7 +43,7 @@ def CommandOption():
     parser.add_option("-o", "--output_dir", dest="output_dir",
         help="write generate directory", metavar="DIRECTORY")
     parser.add_option("-e", "--encoding", dest="encoding",
-        help="output encoding", metavar="ENCODING", default="utf8")
+        help="output encoding [utf8,utf8bom,sjis,euc]", metavar="ENCODING", default="utf8")
     parser.add_option("-p", "--prefix", dest="prefix", default="",
         help="additional prefix filename", metavar="STRING")
     parser.add_option("-r", "--release", dest="release", default="false",
@@ -58,7 +58,7 @@ def main():
 
     try:
         xmlfile = utils.input_filename(options.config)
-        encode = utils.input_default(options.encoding, "")
+        encode = utils.input_select(options.encoding, ["utf8","utf8bom","sjis","euc"])
         prefix = utils.input_default(options.prefix, "")
         template_dir = utils.input_dirname(options.template_dir)
         output_dir = utils.input_dirname(options.output_dir)
