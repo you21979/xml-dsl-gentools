@@ -54,15 +54,15 @@ class Generator21:
         fp.close()
 
 def output_utf8(fp, buff):
-    fp.write(buff)
+    fp.write(buff.encode('utf-8'))
     
 def output_utf8bom(fp, buff):
     utils.output_utf8bom_header(fp)
     output_utf8(fp, buff)
 
 def output_sjis(fp, buff):
-    fp.write(buff)
+    fp.write(buff.encode('sjis'))
 
 def output_euc(fp, buff):
-    fp.write(buff)
+    fp.write(buff.encode('eucjp'))
 

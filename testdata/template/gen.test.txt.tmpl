@@ -1,0 +1,5 @@
+{% for const in dic.const %}\
+{%  for param in const.params %}\
+const ${ param.toUCamel("name") } = ${ param.data.value }; // ${ param.data.comment }
+{%  end %}\
+{% end %}\

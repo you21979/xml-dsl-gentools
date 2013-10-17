@@ -8,6 +8,7 @@ class BaseItem:
         self.parent = None
         self.tag = ''
         self.data = {}
+        self.data['comment'] = ''
     def toLCamel(self,name):
         wl = WordList()
         wl.fromSnakeCase(self.data[name])
