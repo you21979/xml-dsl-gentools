@@ -10,7 +10,7 @@ PREFIX_NAME="gen."
 
 class Processor:
 
-    def __init__(self, xml_file, template_dir, output_dir, replace_prefix_name, encode):
+    def __init__(self, xml_file, template_dir, output_dir, replace_prefix_name, encode, engine):
         # xmlファイル
         self.xml_file = xml_file
         # テンプレートディレクトリ
@@ -22,7 +22,7 @@ class Processor:
         # 出力文字タイプ
         self.encode_character = encode
 
-        self.gen = Generator21(xml_file)
+        self.gen = Generator21(xml_file, engine)
 
     # -------------------------------------
     # テンプレートのスキャン

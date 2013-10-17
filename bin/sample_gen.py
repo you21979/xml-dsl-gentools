@@ -21,6 +21,8 @@ def CommandOption():
         help="additional prefix filename", metavar="STRING")
     parser.add_option("-r", "--release", dest="release", default="false",
         help="release flag", metavar="BOOL")
+    parser.add_option("-s", "--select", dest="select", default="django",
+        help="select template engine[django,genshi]", metavar="SELECT_ENGINE")
 
     return parser
 
@@ -36,10 +38,11 @@ def main():
         template_dir = utils.input_dirname(options.template_dir)
         output_dir = utils.input_dirname(options.output_dir)
         release = utils.input_bool(options.release)
+        select_engine = utils.input_select(options.select, ["django","genshi"])
     except:
         return parser.print_help()
 
-    processor = Processor(xmlfile, template_dir, output_dir, prefix, encode)
+    processor = Processor(xmlfile, template_dir, output_dir, prefix, encode, select_engine)
     processor.proc()
 
 main()
