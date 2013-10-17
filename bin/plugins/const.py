@@ -17,7 +17,6 @@ class Param(BaseItem):
     def __init__(self, parent, elem):
         BaseItem.__init__(self)
         self.parent = parent
-        self.param = []
         self.tag = elem.tag
         for key in elem.keys():
             self.data[key] = elem.get(key)

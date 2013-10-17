@@ -17,5 +17,5 @@ def output(dictionary, in_file, out_file):
         'dic' : dictionary,
         'libdir' : os.path.dirname(in_file),
     })
-    return tmpl.render(context)
+    return tmpl.render(context).replace("\\\n", "")
 
