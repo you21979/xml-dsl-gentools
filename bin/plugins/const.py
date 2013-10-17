@@ -2,32 +2,32 @@
 # -*- coding: utf-8 -*-
 from dsltools.base_item import BaseItem
 
-class Item(BaseItem):
-    def __init__(self):
+class Const(BaseItem):
+    def __init__(self, parent, elem):
         BaseItem.__init__(self)
+        self.parent = parent
+        self.params = []
+        self.tag = elem.tag
+        for key in elem.keys():
+            self.data[key] = elem.get(key)
+    def add(self, param):
+        self.params.append(param)
 
+class Param(BaseItem):
+    def __init__(self, parent, elem):
+        BaseItem.__init__(self)
+        self.parent = parent
+        self.param = []
+        self.tag = elem.tag
+        for key in elem.keys():
+            self.data[key] = elem.get(key)
 
-def init(root):
-    item = Item()
-    return item
+def read(root, elements):
 
-def insert_element(root, elements):
-    item = Item()
-    return item
+    const = Const(root, elements)
+    for element in elements.getiterator():
+        if element.tag == "param":
+            const.add(Param(const, element))
 
-def insert_param(root, member, element):
-    pass
+    return const
 
-
-def read(tree, tag):
-    
-    root = tree.getroot()
-    item_root = init(root)
-
-    for elements in root.findall(tag):
-        item_member = insert_element(item_root, elements)
-        for element in elements.getiterator():
-            if element.tag == "param":
-                insert_param(item_root, item_member, element)
-
-    return item_root

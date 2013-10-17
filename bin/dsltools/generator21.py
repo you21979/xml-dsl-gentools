@@ -6,9 +6,16 @@ from dsltools import lazyload
 from dsltools.base_item import BaseItem
 from xml.etree.ElementTree import ElementTree
 
-class Item(BaseItem):
+class RootItem(BaseItem):
     def __init__(self):
         BaseItem.__init__(self)
+        self.tag = "root"
+        self.items = {}
+
+    def add(self, name, childs):
+        if name not in self.items:
+            self.items[name] = []
+        self.items[name].append(childs)
 
 class Generator21:
     def __init__(self, xmlfile, template_engine = "django"):
@@ -22,24 +29,18 @@ class Generator21:
     def readXML(self, xmlfile):
         tree = ElementTree(file=open(xmlfile, 'r'))
 
-        itemroot = Item()
+        root = RootItem()
 
         plugins = lazyload.scan("plugins")
         for plugin in plugins:
-            plugins[plugin].read(tree, plugin)
+            for elements in tree.findall(plugin):
+                root.add(plugin, plugins[plugin].read(root, elements))
 
-        #root = tree.getroot()
-        #itemroot.tag = root.tag
-        #print root
-        
-        #for element in root.findall('struct'):
-        #    for item in element.getiterator():
-        #        break
-        return itemroot
+        return root
 
     def output(self, in_file, out_file, encode):
 
-        outbuff = self.gen.output(self.tree, in_file, out_file)
+        outbuff = self.gen.output(self.tree.items, in_file, out_file)
 
         # output
         fp = open(out_file, 'w')
