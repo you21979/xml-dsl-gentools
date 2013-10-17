@@ -7,6 +7,10 @@
 	<const name="max">
 		<param name="chara_name_len" type="uint8" value="128" comment="キャラ名"/>
 		<param name="item_name_len" type="uint8" value="256" comment="アイテム名"/>
+		<param name="gold" type="uint32" value="999999999" comment="お金"/>
+	</const>
+	<const name="min">
+		<param name="gold" type="uint32" value="0" comment="お金"/>
 	</const>
 	<enum name="item_type">
 		<param name="none"/>
