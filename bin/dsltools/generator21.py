@@ -22,11 +22,11 @@ class Generator21:
     def readXML(self, xmlfile):
         tree = ElementTree(file=open(xmlfile, 'r'))
 
+        itemroot = Item()
+
         plugins = lazyload.scan("plugins")
         for plugin in plugins:
             plugin.read(tree)
-
-        itemroot = Item()
 
         #root = tree.getroot()
         #itemroot.tag = root.tag
@@ -45,8 +45,8 @@ class Generator21:
 
         # generate
         outbuff = tmpl.generate(
-            xml={},
-            lib=os.path.join(".")
+            xml = self.tree,
+            libdir = os.path.dirname(in_file)
         ).render('text')
 
         # output
