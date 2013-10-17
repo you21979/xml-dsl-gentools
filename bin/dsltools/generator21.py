@@ -18,7 +18,7 @@ class RootItem(BaseItem):
         self.items[name].append(childs)
 
 class Generator21:
-    def __init__(self, xmlfile, template_engine = "django"):
+    def __init__(self, xmlfile, template_engine = "genshi"):
         self.tree = self.readXML(xmlfile)
         switch = {
             'django': "engine.generate_django",

@@ -21,7 +21,7 @@ def CommandOption():
         help="additional prefix filename", metavar="STRING")
     parser.add_option("-r", "--release", dest="release", default="false",
         help="release flag", metavar="BOOL")
-    parser.add_option("-s", "--select", dest="select", default="django",
+    parser.add_option("-s", "--select", dest="select", default="genshi",
         help="select template engine[django,genshi]", metavar="SELECT_ENGINE")
 
     return parser
