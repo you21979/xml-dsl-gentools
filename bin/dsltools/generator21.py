@@ -14,11 +14,10 @@ class Generator21:
     def __init__(self, xmlfile, template_engine = "django"):
         self.tree = self.readXML(xmlfile)
         switch = {
-            'django': "generator_django",
-            'genshi': "generator_genshi",
+            'django': "engine.generate_django",
+            'genshi': "engine.generate_genshi",
         }
-        engine = switch[template_engine]
-        self.gen = lazyload.load(engine)
+        self.gen = lazyload.load(switch[template_engine])
 
     def readXML(self, xmlfile):
         tree = ElementTree(file=open(xmlfile, 'r'))
