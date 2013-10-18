@@ -17,6 +17,21 @@ class RootItem(BaseItem):
             self.items[name] = []
         self.items[name].append(childs)
 
+def read( xmlfile, root ):
+    tree = ElementTree(file=open(xmlfile, 'r'))
+    for elements in tree.findall('include'):
+        for element in elements.getiterator():
+            if element.tag == 'file':
+                filepath = os.path.join(os.path.dirname(xmlfile), element.get('name'))
+                read(filepath, root)
+
+    plugins = lazyload.scan("plugins")
+    for plugin in plugins:
+        for elements in tree.findall(plugin):
+            root.add(plugin, plugins[plugin].read(root, elements))
+
+    return root
+
 class Generator21:
     def __init__(self, xmlfile, template_engine = "genshi"):
         self.tree = self.readXML(xmlfile)
@@ -27,14 +42,8 @@ class Generator21:
         self.gen = lazyload.load(switch[template_engine])
 
     def readXML(self, xmlfile):
-        tree = ElementTree(file=open(xmlfile, 'r'))
 
-        root = RootItem()
-
-        plugins = lazyload.scan("plugins")
-        for plugin in plugins:
-            for elements in tree.findall(plugin):
-                root.add(plugin, plugins[plugin].read(root, elements))
+        root = read(xmlfile, RootItem())
 
         return root
 
