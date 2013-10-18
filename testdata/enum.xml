@@ -12,7 +12,7 @@
 		<param name="axe"/>
 		<param name="shield"/>
 		<param name="armor"/>
-		<flag name="weapon" value="sword|pike|axe"/>
-		<flag name="protect" value="armor|shield"/>
+		<group name="weapon" value="sword|pike|axe"/>
+		<group name="protect" value="armor|shield"/>
 	</enum>
 </format>
