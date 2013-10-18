@@ -41,6 +41,7 @@ class Generator21:
     def output(self, in_file, out_file, encode):
 
         outbuff = self.gen.output(self.tree.items, in_file, out_file)
+        print outbuff
 
         # output
         fp = open(out_file, 'w')
@@ -54,7 +55,7 @@ class Generator21:
         fp.close()
 
 def output_utf8(fp, buff):
-    fp.write(buff.encode('utf-8'))
+    fp.write(buff)
     
 def output_utf8bom(fp, buff):
     utils.output_utf8bom_header(fp)
