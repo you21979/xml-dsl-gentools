@@ -3,3 +3,8 @@
 const ${ const.toUCamel("name") }${ param.toUCamel("name") } = ${ param.data.value }; // ${ param.data.comment }
 {%  end %}\
 {% end %}\
+{% for enum in dic.enum %}\
+{%  for param in enum.params %}\
+enum ${ enum.toUCamel("name") }${ param.toUCamel("name") } = ${ param.data.value }; // ${ param.data.comment }
+{%  end %}\
+{% end %}\

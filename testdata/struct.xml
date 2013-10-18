@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<format>
+	<struct name="base">
+		<param name="id" type="uint16"/>
+		<param name="name" type="string"/>
+	</struct>
+</format>
