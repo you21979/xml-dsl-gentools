@@ -1,0 +1,139 @@
+\
+\
+{% def require_int64() %}\
+var UInt64 = require('int64');\
+var Int64 = require('int64');\
+{% end %}\
+{% def _create_int64(data) %}\
+new Int64('${data}')\
+{% end %}\
+{% def _create_uint64(data) %}\
+new UInt64('${data}')\
+{% end %}\
+\
+\
+{% def _type_value(v) %}\
+{%   choose %}\
+{%    when v.data.type == 'string' %}\
+'${v.data.value}'\
+{%    end %}\
+{%    when v.data.type == 'int64' %}\
+${_create_int64(v.data.value)}\
+{%    end %}\
+{%    when v.data.type == 'uint64' %}\
+${_create_uint64(v.data.value)}\
+{%    end %}\
+{%    otherwise %}\
+${v.data.value}\
+{%    end %}\
+{%   end %}\
+{%  end %}\
+{% end %}\
+\
+\
+{% def _header() %}\
+this is auto generate file\
+{% end %}\
+\
+\
+{% def _head_const(const) %}\
+${ const.toUpper("name") }\
+{% end %}\
+{% def _full_const(const, param) %}\
+${  _head_const(const) + "." + param.toUpper("name") }\
+{% end %}\
+{% def _mini_const(const, param) %}\
+${ param.toUpper("name") }\
+{% end %}\
+{% def _head_enum(enum) %}\
+${ enum.toUpper("name") }\
+{% end %}\
+{% def _full_enum(enum, param) %}\
+${ _head_enum(enum) + "." + param.toUpper("name") }\
+{% end %}\
+{% def _mini_enum(enum, param) %}\
+${ param.toUpper("name") }\
+{% end %}\
+{% def _head_flag(enum) %}\
+${ enum.toUpper("name", "", "_flag") }\
+{% end %}\
+{% def _full_flag(enum, flag) %}\
+${ _head_flag(enum) + "." + flag.toUpper("name") }\
+{% end %}\
+{% def _mini_flag(enum, flag) %}\
+${ flag.toUpper("name") }\
+{% end %}\
+{% def _head_group(enum) %}\
+${ enum.toUpper("name", "", "_group") }\
+{% end %}\
+{% def _full_group(enum, group) %}\
+${ _head_group(enum) + "." + group.toUpper("name") }\
+{% end %}\
+{% def _mini_group(enum, group) %}\
+${ group.toUpper("name") }\
+{% end %}\
+{% def _expand_group(enum, group) %}\
+${ group.expand(lambda x : x.toUCase(), enum.toLower("name", "", "_flag") + ".", "") }\
+{% end %}\
+\
+\
+\
+\
+\
+\
+{% def print_const(const, param) %}\
+    ${ _mini_const(const, param) } : ${_type_value(param) }, // ${ param.data.comment }
+{% end %}\
+\
+\
+{% def print_enum(enum, param) %}\
+    ${ _mini_enum(enum, param) } : ${param.data.value }, // ${ param.data.comment }
+{% end %}\
+\
+\
+{% def print_flag(enum, flag) %}\
+    ${ _mini_flag(enum, flag) } : ${ flag.data.value }, // ${ flag.data.comment }
+{% end %}\
+\
+\
+{% def print_group(enum, group) %}\
+    ${ _mini_group(enum, group) } : ${ _expand_group(enum, group) }, // ${ group.data.comment }
+{% end %}\
+\
+\
+{% def define_const(dic) %}\
+{%  for const in dic.const %}\
+var ${ _head_const(const) } = {
+{%   for param in const.params %}\
+${ print_const(const, param) }\
+{%   end %}\
+};
+{%  end %}\
+{% end %}\
+\
+\
+{% def define_enum(dic) %}\
+{%  for enum in dic.enum %}\
+var ${ _head_enum(enum) } = {
+{%   for param in enum.params %}\
+${ print_enum(enum, param) }\
+{%   end %}\
+};
+{%   if len(enum.flags) > 0 %}\
+var ${ _head_flag(enum) } = {
+{%    for flag in enum.flags %}\
+${ print_flag(enum, flag) }\
+{%    end %}\
+};
+var ${ _head_group(enum) } = {
+{%    for group in enum.groups %}\
+${ print_group(enum, group) }\
+{%    end %}\
+};
+{%   end %}\
+{%  end %}\
+{% end %}\
+\
+\
+{% def define_struct(dic) %}\
+{% end %}\

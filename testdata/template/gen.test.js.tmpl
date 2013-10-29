@@ -1,22 +1,8 @@
-// const
-{% for const in dic.const %}\
-{%  for param in const.params %}\
-var ${ const.toUCamel("name") }${ param.toUCamel("name") } = ${ param.data.value }; // ${ param.data.comment }
-{%  end %}\
-{% end %}\
+{% include ${'%s/javascript' % libdir} %}\
+// ${ _header() }
+${ require_int64() }
 
-// enum
-{% for enum in dic.enum %}\
-{%  for param in enum.params %}\
-var ${ enum.toUCamel("name") }${ param.toUCamel("name") } = ${ param.data.value }; // ${ param.data.comment }
-{%  end %}\
-// flag
-{%  for flag in enum.flags %}\
-var ${ flag.toUCamel("name", enum.toLower("name")+'_', '_flag') } = ${ flag.data.value }; // ${ flag.data.comment }
-{%  end %}\
-// group
-{%  for group in enum.groups %}\
-var ${ group.toUCamel("name", enum.toLower("name")+'_', '_group') } = ${ group.expand(lambda x : x.toUCamel(), enum.toLower("name")+'_', '_flag') }; // ${ group.data.comment }
-{%  end %}\
-{% end %}\
+${ define_const(dic) }
+${ define_enum(dic) }
+${ define_struct(dic) }
 
