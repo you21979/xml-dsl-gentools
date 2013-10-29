@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <format>
-	<struct name="base">
-		<param name="id" type="uint16"/>
-		<param name="name" type="string"/>
+	<enum name="equip_slot">
+		<param name="none"/>
+		<param name="hand_left"/>
+		<param name="hand_right"/>
+		<param name="body"/>
+		<param name="leg"/>
+		<sizeof name="sizeof"/>
+		<max name="max"/>
+		<min name="min"/>
+	</enum>
+	<const name="limit">
+		<param name="item_name_len" type="uint8" value="100"/>
+		<param name="item_inventory_size" type="uint8" value="256"/>
+	</const>
+	<struct name="item_equip">
+		<param name="slot" type="uint8" validate="equip_slot" comment=""/>
+		<param name="elemental" type="uint16" array="equip_slot.sizeof"/>
 	</struct>
+	<struct name="item">
+		<param name="serial_id" type="uint64" comment="serial id"/>
+		<param name="item_id" type="uint32" comment="item id"/>
+		<param name="name" type="string" length="limit.item_name_len" comment=""/>
+		<param name="equip" type="item_equip" array="1" comment=""/>
+	</struct>
+	<struct name="item_inventory">
+		<param name="items" type="item" array="limit.item_inventory_size" comment=""/>
+	</struct>
+
 </format>
