@@ -23,6 +23,9 @@ ${_create_int64(v.data.value)}\
 {%    when v.data.type == 'uint64' %}\
 ${_create_uint64(v.data.value)}\
 {%    end %}\
+{%    when v.data.is_struct == True %}\
+aaaaa
+{%    end %}\
 {%    otherwise %}\
 ${v.data.value}\
 {%    end %}\
@@ -77,6 +80,12 @@ ${ group.expand(lambda x : x.toUCase(), enum.toLower("name", "", "_flag") + ".",
 {% end %}\
 \
 \
+{% def _head_struct(struct) %}\
+${ struct.toUCamel("name") }\
+{% end %}\
+{% def _mini_struct(struct, param) %}\
+${ param.toLower("name") }\
+{% end %}\
 \
 \
 \
@@ -98,6 +107,11 @@ ${ group.expand(lambda x : x.toUCase(), enum.toLower("name", "", "_flag") + ".",
 \
 {% def print_group(enum, group) %}\
     ${ _mini_group(enum, group) } : ${ _expand_group(enum, group) }, // ${ group.data.comment }
+{% end %}\
+\
+\
+{% def print_struct(struct, param) %}\
+    this.${ _mini_struct(struct, param) } = ${_type_value(param)};
 {% end %}\
 \
 \
@@ -136,4 +150,11 @@ ${ print_group(enum, group) }\
 \
 \
 {% def define_struct(dic) %}\
+{%  for struct in dic.struct %}\
+var ${ _head_struct(struct) } = function(){
+{%    for param in struct.params %}\
+${ print_struct(struct, param) }\
+{%    end %}\
+};
+{%  end %}\
 {% end %}\

@@ -6,6 +6,12 @@ from dsltools import lazyload
 from dsltools.base_item import BaseItem
 from xml.etree.ElementTree import ElementTree
 
+def debug_file(name):
+    print("+"+name)
+
+def debug_plugin(name):
+    print("+-"+name)
+
 class RootItem(BaseItem):
     def __init__(self):
         BaseItem.__init__(self)
@@ -18,6 +24,7 @@ class RootItem(BaseItem):
         self.items[name].append(childs)
 
 def read( xmlfile, root ):
+    debug_file(xmlfile)
     tree = ElementTree(file=open(xmlfile, 'r'))
     for elements in tree.findall('include'):
         for element in elements.getiterator():
@@ -28,6 +35,7 @@ def read( xmlfile, root ):
     plugins = lazyload.scan("plugins")
     for plugin in plugins:
         for elements in tree.findall(plugin):
+            debug_plugin(plugin)
             root.add(plugin, plugins[plugin].read(root, elements))
 
     return root

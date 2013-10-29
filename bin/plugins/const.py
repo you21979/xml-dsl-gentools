@@ -10,6 +10,7 @@ class Const(BaseItem):
         self.tag = elem.tag
         for key in elem.keys():
             self.data[key] = elem.get(key)
+
     def add(self, param):
         self.params.append(param)
 
