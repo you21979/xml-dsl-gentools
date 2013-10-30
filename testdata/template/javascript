@@ -15,7 +15,12 @@ new ${ param.toUCamel('type') }()\
 {% end %}\
 \
 \
-{% def _type_value(v) %}\
+{% def _type_default_array(v) %}\
+[]\
+{% end %}\
+\
+\
+{% def _type_default_value(v) %}\
 {%   choose %}\
 {%    when dic.type.database[v.data.type].type == 'string' %}\
 '${v.data.value}'\
@@ -31,6 +36,19 @@ ${_create_struct(v)}\
 {%    end %}\
 {%    otherwise %}\
 ${v.data.value}\
+{%    end %}\
+{%   end %}\
+{%  end %}\
+{% end %}\
+\
+\
+{% def _type_default(v) %}\
+{%   choose %}\
+{%    when v.data.array == '' %}\
+${ _type_default_value(v) }\
+{%    end %}\
+{%    otherwise %}\
+${ _type_default_array(v) }\
 {%    end %}\
 {%   end %}\
 {%  end %}\
@@ -94,7 +112,7 @@ ${ param.toLower("name") }\
 \
 \
 {% def print_const(const, param) %}\
-    ${ _mini_const(const, param) } : ${_type_value(param) }, // ${ param.data.comment }
+    ${ _mini_const(const, param) } : ${_type_default(param) }, // ${ param.data.comment }
 {% end %}\
 \
 \
@@ -114,7 +132,7 @@ ${ param.toLower("name") }\
 \
 \
 {% def print_struct(struct, param) %}\
-    this.${ _mini_struct(struct, param) } = ${_type_value(param)};
+    this.${ _mini_struct(struct, param) } = ${_type_default(param)};
 {% end %}\
 \
 \

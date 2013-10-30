@@ -21,6 +21,7 @@ class Param(BaseItem):
         self.tag = elem.tag
         for key in elem.keys():
             self.data[key] = elem.get(key)
+        self.data['array'] = ''
 
 def read(root, elements):
 

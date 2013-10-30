@@ -19,7 +19,6 @@ class Param(BaseItem):
         BaseItem.__init__(self)
         self.parent = parent
         self.tag = elem.tag
-        self.is_array = False
         for key in elem.keys():
             self.data[key] = elem.get(key)
         if 'array' in self.data:
