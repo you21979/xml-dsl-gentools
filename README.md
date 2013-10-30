@@ -15,6 +15,6 @@ GPL3
 
 使い方
 ------
-cd bin
-./sample_gen.py -c ../testdata/test.xml -t ../testdata/tmpl_js -o /tmp -p work_
+cd bin  
+./sample_gen.py -c ../testdata/test.xml -t ../testdata/tmpl_js -o /tmp -p work_  
 
