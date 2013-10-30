@@ -132,7 +132,7 @@ ${ param.toLower("name") }\
 \
 \
 {% def print_struct(struct, param) %}\
-    this.${ _mini_struct(struct, param) } = ${_type_default(param)};
+    this.${ _mini_struct(struct, param) } = ${_type_default(param)}; // <${ param.data.type }> ${ param.data.comment }
 {% end %}\
 \
 \
