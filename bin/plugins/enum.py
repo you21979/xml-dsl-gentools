@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from dsltools.base_item import BaseItem
 from dsltools.word_list import WordList
+from dsltools.type import *
+
 import sys
 
 class Enum(BaseItem):
@@ -86,6 +88,8 @@ class Group(BaseItem):
 def read(root, elements):
 
     enum = Enum(root, elements)
+    type = TypeInt32(enum.data['name'])
+
     for element in elements.getiterator():
         if element.tag == "param":
             p = enum.addparam(Param(enum, element))
@@ -94,6 +98,8 @@ def read(root, elements):
         elif element.tag == "group":
             if enum.isflag:
                 enum.addgroup(Group(enum, element))
+
+    root.items["type"].add(type)
 
     return enum
 

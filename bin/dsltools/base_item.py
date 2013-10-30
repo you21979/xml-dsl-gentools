@@ -8,7 +8,6 @@ class BaseItem:
         self.parent = None
         self.tag = ''
         self.data = {}
-        self.is_struct = False
         self.is_array = False
         self.data['comment'] = ''
     def toLCamel(self, name, prefix = '', suffix = ''):

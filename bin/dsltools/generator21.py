@@ -4,6 +4,7 @@ import os
 from dsltools import utils
 from dsltools import lazyload
 from dsltools.base_item import BaseItem
+from dsltools.type import *
 from xml.etree.ElementTree import ElementTree
 
 def debug_file(name):
@@ -17,6 +18,7 @@ class RootItem(BaseItem):
         BaseItem.__init__(self)
         self.tag = "root"
         self.items = {}
+        self.items["type"] = TypeDatabase()
 
     def add(self, name, childs):
         if name not in self.items:

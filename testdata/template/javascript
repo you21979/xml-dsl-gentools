@@ -10,21 +10,24 @@ new Int64('${data}')\
 {% def _create_uint64(data) %}\
 new UInt64('${data}')\
 {% end %}\
+{% def _create_struct(param) %}\
+new ${ param.toUCamel('type') }()\
+{% end %}\
 \
 \
 {% def _type_value(v) %}\
 {%   choose %}\
-{%    when v.data.type == 'string' %}\
+{%    when dic.type.database[v.data.type].type == 'string' %}\
 '${v.data.value}'\
 {%    end %}\
-{%    when v.data.type == 'int64' %}\
+{%    when dic.type.database[v.data.type].type == 'int64' %}\
 ${_create_int64(v.data.value)}\
 {%    end %}\
-{%    when v.data.type == 'uint64' %}\
+{%    when dic.type.database[v.data.type].type == 'uint64' %}\
 ${_create_uint64(v.data.value)}\
 {%    end %}\
-{%    when v.data.is_struct == True %}\
-aaaaa
+{%    when dic.type.database[v.data.type].type == 'struct' %}\
+${_create_struct(v)}\
 {%    end %}\
 {%    otherwise %}\
 ${v.data.value}\

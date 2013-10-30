@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from dsltools.base_item import BaseItem
+from dsltools.type import *
 
 class Struct(BaseItem):
     def __init__(self, parent, elem):
@@ -19,7 +20,6 @@ class Param(BaseItem):
         self.parent = parent
         self.tag = elem.tag
         self.is_array = False
-        self.is_struct = False
         for key in elem.keys():
             self.data[key] = elem.get(key)
         if 'array' in self.data:
@@ -52,7 +52,6 @@ class ParamString(Param):
 class ParamStruct(Param):
     def __init__(self, parent, elem):
         Param.__init__(self, parent, elem)
-        self.is_struct = 'struct'
         if 'value' not in self.data:
             self.data['value'] = '';
 
@@ -70,13 +69,20 @@ TYPE_DISPATCH = {
     'string' : ParamString,
 }
 
+class MyStruct(TypeStruct):
+    def __init__(self, name):
+        TypeStruct.__init__(self, name)
+        
 def read(root, elements):
     s = Struct(root, elements)
+    type = MyStruct(s.data['name'])
     TYPE_DISPATCH[s.data['name']] = ParamStruct
     for element in elements.getiterator():
         if element.tag == "param":
             param = TYPE_DISPATCH[element.get('type')](s, element)
             s.add(param)
+
+    root.items["type"].add(type)
 
     return s
 
