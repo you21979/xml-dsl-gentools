@@ -11,7 +11,6 @@ def output(dictionary, in_file, out_file):
     # generate
     return tmpl.generate(
         dic = dictionary,
-        langdir = os.path.dirname(in_file) + "/../langlib",
         libdir = os.path.dirname(in_file)
     ).render('text')
 
